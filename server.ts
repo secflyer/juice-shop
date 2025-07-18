@@ -83,6 +83,7 @@ import { trackOrder } from './routes/trackOrder'
 import { saveLoginIp } from './routes/saveLoginIp'
 import { serveKeyFiles } from './routes/keyServer'
 import * as basketItems from './routes/basketItems'
+import * as challengeHints from './routes/challengeHints' // NEW: Import hint route
 import { performRedirect } from './routes/redirect'
 import { serveEasterEgg } from './routes/easterEgg'
 import { getLanguageList } from './routes/languages'
@@ -608,6 +609,8 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.get('/rest/memories', getMemories())
   app.get('/rest/chatbot/status', chatbot.status())
   app.post('/rest/chatbot/respond', chatbot.process())
+  app.patch('/rest/challenges/hint-state', challengeHints.updateHintState()) // NEW: Register the PATCH endpoint
+
   /* NoSQL API endpoints */
   app.get('/rest/products/:id/reviews', showProductReviews())
   app.put('/rest/products/:id/reviews', createProductReviews())
@@ -685,7 +688,7 @@ const uploadToDisk = multer({
   })
 })
 
-const expectedModels = ['Address', 'Basket', 'BasketItem', 'Captcha', 'Card', 'Challenge', 'Complaint', 'Delivery', 'Feedback', 'ImageCaptcha', 'Memory', 'PrivacyRequestModel', 'Product', 'Quantity', 'Recycle', 'SecurityAnswer', 'SecurityQuestion', 'User', 'Wallet']
+const expectedModels = ['Address', 'Basket', 'BasketItem', 'Captcha', 'Card', 'Challenge', 'Complaint', 'Delivery', 'Feedback', 'ImageCaptcha', 'Memory', 'PrivacyRequestModel', 'Product', 'Quantity', 'Recycle', 'SecurityAnswer', 'SecurityQuestion', 'User', 'Wallet', 'HintUsage']
 while (!expectedModels.every(model => Object.keys(sequelize.models).includes(model))) {
   logger.info(`Entity models ${colors.bold(Object.keys(sequelize.models).length.toString())} of ${colors.bold(expectedModels.length.toString())} are initialized (${colors.yellow('WAITING')})`)
 }

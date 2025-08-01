@@ -9,7 +9,8 @@ name = "javascript"
     "vue",
     "angular",
     "ember",
-    "angularjs"
+    "angularjs",
+    "meteor"
   ]
   environment = [
     "jasmine",
